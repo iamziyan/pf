@@ -1,4 +1,326 @@
 /* ==========================================
+   FinTech Portfolio: Global Styles
+   - Monochromatic Blue Gradient Theme
+   - Continuous shifting background animation
+   - Smooth viewport control & custom scrollbars
+   - Modern typography rules
+   ========================================== */
+
+:root {
+  color-scheme: light dark;
+
+  /* Monochromatic Blue Gradient Palette (EXACT HEX CODES) */
+  --color-darkest-navy: #021024;
+  --color-deep-navy: #052659;
+  --color-medium-blue: #5483B3;
+  --color-light-blue: #7DA0CA;
+  --color-very-light-blue: #C1E8FF;
+
+  /* Theme Transitions */
+  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Typography Scale */
+  --font-heading: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --text-h1: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+  --text-h2: clamp(1.8rem, 1.2rem + 3vw, 3rem);
+  --text-h3: clamp(1.3rem, 1rem + 1.5vw, 2rem);
+  --text-body: clamp(0.95rem, 0.85rem + 0.3vw, 1.15rem);
+  --text-small: clamp(0.75rem, 0.7rem + 0.15vw, 0.85rem);
+}
+
+/* Dark Mode Variables (Default) */
+html[data-theme="dark"],
+html:not([data-theme="light"]) {
+  --bg-primary: var(--color-darkest-navy);
+  --text-primary: var(--color-very-light-blue);
+  --text-muted: rgba(193, 232, 255, 0.7);
+  --accent: var(--color-medium-blue);
+  --card-bg: rgba(5, 38, 89, 0.6);
+  --glass-bg: rgba(5, 38, 89, 0.6);
+  --glass-border: rgba(84, 131, 179, 0.3);
+  --glass-inner-glow: rgba(193, 232, 255, 0.1);
+  --glass-shadow: rgba(2, 16, 36, 0.5);
+
+  --scrollbar-track: rgba(2, 16, 36, 0.1);
+  --scrollbar-thumb: var(--color-medium-blue);
+  --scrollbar-thumb-hover: var(--color-light-blue);
+  
+  --bg-gradient: linear-gradient(135deg, #021024 0%, #052659 50%, #021024 100%);
+}
+
+/* Light Mode Variables */
+html[data-theme="light"] {
+  --bg-primary: var(--color-very-light-blue);
+  --text-primary: var(--color-deep-navy);
+  --text-muted: rgba(5, 38, 89, 0.85); /* Increased for readability */
+  --accent: var(--color-medium-blue);
+  --card-bg: rgba(255, 255, 255, 0.7); /* Opacity increased to 0.7 */
+  --glass-bg: rgba(255, 255, 255, 0.7); /* Opacity increased to 0.7 */
+  --glass-border: rgba(5, 38, 89, 0.2); /* 1px solid rgba(5, 38, 89, 0.2) */
+  --glass-inner-glow: rgba(255, 255, 255, 0.8); /* inset 0 1px 0 rgba(255, 255, 255, 0.8) */
+  --glass-shadow: rgba(5, 38, 89, 0.15);
+
+  --scrollbar-track: rgba(5, 38, 89, 0.05); /* Track background in light mode */
+  --scrollbar-thumb: var(--color-medium-blue); /* #5483B3 */
+  --scrollbar-thumb-hover: var(--color-light-blue);
+
+  --bg-gradient: linear-gradient(135deg, #C1E8FF 0%, #FFFFFF 100%);
+}
+
+/* Base Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100vh;
+  overflow: hidden; /* Prevents scrolling on the main page */
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background var(--transition-smooth), color var(--transition-smooth);
+}
+
+[data-theme="dark"] body {
+  background-color: #000000 !important;
+}
+
+[data-theme="light"] body {
+  background-color: #FFFFFF !important;
+}
+
+/* Custom Scrollbars (Webkit) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Custom Scrollbars (Firefox) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Typography styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] h5,
+html[data-theme="light"] h6 {
+  color: #021024 !important;
+}
+
+p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+html[data-theme="light"] a {
+  color: #052659 !important;
+  text-decoration: underline !important;
+  text-decoration-color: #5483B3 !important;
+  text-decoration-thickness: 1.5px !important;
+  text-underline-offset: 3px !important;
+}
+
+a:hover {
+  color: var(--text-primary);
+}
+
+html[data-theme="light"] a:hover {
+  color: #5483B3 !important;
+  text-decoration-color: #052659 !important;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Utility classes */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+
+
+/* Mobile Scrolling Exception */
+@media (max-width: 768px) {
+  html, body {
+    height: auto;
+    overflow-y: auto;
+  }
+}
+/* ==========================================
+   FinTech Portfolio: Glassmorphism & Badge Systems
+   - Core Liquid Glass specifications
+   - Glassmorphic status badges/pills with gradient overlays
+   ========================================== */
+
+/* Core Liquid Glass Card and Layout Panels */
+.liquid-glass {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    inset 0 1px 0 var(--glass-inner-glow),
+    0 8px 32px 0 var(--glass-shadow);
+  border-radius: 24px;
+  box-sizing: border-box;
+  transition: background var(--transition-smooth), border var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+/* Status Badges / Pills */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 99px;
+  font-family: var(--font-heading);
+  font-size: var(--text-small);
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+  line-height: 1;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+/* Status Badge Gradients (Derived from the Monochromatic Blue Palette) */
+.badge-bronze,
+.badge-active {
+  background: linear-gradient(135deg, rgba(84, 131, 179, 0.2) 0%, rgba(125, 160, 202, 0.1) 100%);
+  border-color: rgba(84, 131, 179, 0.4);
+  box-shadow: 0 0 10px rgba(84, 131, 179, 0.15);
+  color: var(--color-very-light-blue);
+}
+
+.badge-navy,
+.badge-neutral {
+  background: linear-gradient(135deg, rgba(5, 38, 89, 0.25) 0%, rgba(84, 131, 179, 0.1) 100%);
+  border-color: rgba(5, 38, 89, 0.4);
+  box-shadow: 0 0 10px rgba(5, 38, 89, 0.15);
+  color: var(--color-very-light-blue);
+}
+
+.badge-cream,
+.badge-success {
+  background: linear-gradient(135deg, rgba(193, 232, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-color: rgba(193, 232, 255, 0.4);
+  box-shadow: 0 0 10px rgba(193, 232, 255, 0.15);
+  color: var(--color-medium-blue);
+}
+
+.badge-ice-blue {
+  background: linear-gradient(135deg, rgba(125, 160, 202, 0.2) 0%, rgba(5, 38, 89, 0.1) 100%);
+  border-color: rgba(125, 160, 202, 0.4);
+  box-shadow: 0 0 10px rgba(125, 160, 202, 0.15);
+  color: var(--color-very-light-blue);
+}
+/* Light Mode Overrides for Status Badges */
+html[data-theme="light"] .badge-bronze,
+html[data-theme="light"] .badge-active {
+  background: rgba(84, 131, 179, 0.15) !important;
+  border-color: #5483B3 !important;
+  color: #052659 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .badge-navy,
+html[data-theme="light"] .badge-neutral {
+  background: rgba(5, 38, 89, 0.08) !important;
+  border-color: #052659 !important;
+  color: #052659 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .badge-cream,
+html[data-theme="light"] .badge-success {
+  background: rgba(193, 232, 255, 0.3) !important;
+  border-color: #7DA0CA !important;
+  color: #052659 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .badge-ice-blue {
+  background: rgba(125, 160, 202, 0.15) !important;
+  border-color: #7DA0CA !important;
+  color: #052659 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .glass-card {
+  background: rgba(0, 0, 0, 0.03) !important; /* Very faint grey */
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* High Contrast Adjustments */
+@media (forced-colors: active) {
+  .liquid-glass, .status-pill {
+    border: 1.5px solid CanvasText !important;
+    background: Canvas !important;
+  }
+}
+/* ==========================================
    FinTech Portfolio: Core UI Components Layout
    - Floating Navigation Sidebar (responsive)
    - Glass Capsule Theme Toggle (fixed top-right)
@@ -1550,4 +1872,121 @@ html[data-theme="light"] .mobile-link {
 html[data-theme="light"] .mobile-link:hover,
 html[data-theme="light"] .mobile-link.active {
   color: #052659 !important;
+}
+/* ==========================================
+   FinTech Portfolio: Animations
+   - Background gradient shifts
+   - Page load staggers (fade + slide-up)
+   - Spring transitions for menus
+   - Modal enter/exit scaling
+   - Accessibility motion control
+   ========================================== */
+
+/* Shifting background gradient */
+@keyframes shiftGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Page load stagger animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal scale-up transition */
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Fade in with delay */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Spring Bounce effect for dropdowns */
+@keyframes springBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-10px);
+  }
+  70% {
+    transform: scale(1.05) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Three-dot menu items scale pulsator */
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+    filter: drop-shadow(0 0 4px var(--accent));
+  }
+}
+
+/* Dynamic Animation Class Bindings */
+.stagger-in {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger utilities (6 items) */
+.stagger-in:nth-child(1) { animation-delay: 0.08s; }
+.stagger-in:nth-child(2) { animation-delay: 0.16s; }
+.stagger-in:nth-child(3) { animation-delay: 0.24s; }
+.stagger-in:nth-child(4) { animation-delay: 0.32s; }
+.stagger-in:nth-child(5) { animation-delay: 0.40s; }
+.stagger-in:nth-child(6) { animation-delay: 0.48s; }
+
+/* Scroll Reveal classes managed by Intersection Observer */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Accessibility: Respect preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none !important;
+  }
+  
+  .stagger-in,
+  .reveal-on-scroll,
+  .modal-card,
+  .dropdown-menu,
+  .theme-switch-knob {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

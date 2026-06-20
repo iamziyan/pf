@@ -1,3 +1,142 @@
+const canvas = document.getElementById('code-rain');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const chars = '01{}[]<>/;=+*#ZiyanaliFinTechBCA';
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = [];
+
+for (let x = 0; x < columns; x++) {
+  drops[x] = 1;
+}
+
+function drawCode() {
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  
+  // Fade effect for trail
+  ctx.fillStyle = isDark ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Text color based on theme
+  ctx.fillStyle = isDark ? 'rgba(84, 131, 179, 0.15)' : 'rgba(5, 38, 89, 0.08)'; 
+  ctx.font = fontSize + 'px monospace';
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+
+setInterval(drawCode, 50);
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+/**
+ * theme.js
+ * Governs root theme settings (Light/Dark mode) initialized from localStorage or system preferences,
+ * and handles theme toggling + swing animation driven by the cinematic interactive lamp.
+ */
+
+// Synthesize a realistic mechanical "Tak" light switch click using Web Audio API
+function playLampClick() {
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const filter = audioCtx.createBiquadFilter();
+
+    // "Tak" synthesis: sharp, hollow, fast decay
+    osc.type = 'triangle'; 
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.04);
+
+    // Highpass filter to cut the mud and make it crisp
+    filter.type = 'highpass';
+    filter.frequency.value = 1000; 
+
+    // Instant attack, ultra-fast decay
+    gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.06);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 0.06);
+  } catch (e) {
+    console.error("Audio play failed", e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const interactiveLamp = document.getElementById('interactive-lamp');
+  const htmlRoot = document.documentElement;
+
+  // 1. Initialize theme on load (from localStorage or system)
+  const savedTheme = localStorage.getItem('theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  setTheme(savedTheme);
+
+  if (!interactiveLamp) return;
+
+  // 2. Toggle theme with interactive lamp
+  function toggleThemeWithLamp() {
+    playLampClick();
+
+    // Trigger swing animation
+    interactiveLamp.classList.remove('swinging');
+    void interactiveLamp.offsetWidth; // Force reflow to restart animation
+    interactiveLamp.classList.add('swinging');
+    
+    // Determine and set next theme
+    const currentTheme = htmlRoot.getAttribute('data-theme') || 'dark';
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+  }
+
+  // 3. SetTheme helper
+  function setTheme(theme) {
+    htmlRoot.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    
+    // Update aria attributes on lamp if present
+    if (interactiveLamp) {
+      interactiveLamp.setAttribute('aria-label', 
+        theme === 'dark' ? 'Light is on. Click to turn off.' : 'Light is off. Click to turn on.'
+      );
+    }
+  }
+
+  // 4. Bind event listeners
+  interactiveLamp.addEventListener('click', toggleThemeWithLamp);
+  
+  interactiveLamp.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleThemeWithLamp();
+    }
+  });
+
+  // Clean up swing class after animation ends
+  interactiveLamp.addEventListener('animationend', () => {
+    interactiveLamp.classList.remove('swinging');
+  });
+});
 /**
  * app.js
  * Governs horizontal sliding carousel navigation, keyboard navigation,
@@ -361,4 +500,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize the main page slider to Slide 0
   goToSlide(0);
+});
+/**
+ * menu.js
+ * Governs the three-dot ellipsis menu dropdown in the modal headers.
+ * Applies spring animations and handles dismissals when clicking outside boundaries.
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  const trigger = document.getElementById('three-dots-trigger');
+  const dropdown = document.getElementById('modal-dropdown');
+
+  if (!trigger || !dropdown) return;
+
+  // Toggle dropdown on trigger click
+  trigger.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const isOpen = dropdown.classList.contains('open');
+    if (isOpen) {
+      closeDropdown();
+    } else {
+      openDropdown();
+    }
+  });
+
+  // Close dropdown on clicking outside
+  document.addEventListener('click', (event) => {
+    if (!dropdown.contains(event.target) && event.target !== trigger) {
+      closeDropdown();
+    }
+  });
+
+  // Handle escape key to dismiss dropdown
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && dropdown.classList.contains('open')) {
+      closeDropdown();
+    }
+  });
+
+  function openDropdown() {
+    dropdown.classList.add('open');
+    trigger.setAttribute('aria-expanded', 'true');
+
+    // Stagger transition delay for sub-items
+    const items = dropdown.querySelectorAll('.dropdown-item');
+    items.forEach((item, index) => {
+      item.style.opacity = '0';
+      item.style.animation = 'fadeIn 0.2s ease forwards';
+      item.style.animationDelay = `${0.05 * (index + 1)}s`;
+    });
+  }
+
+  function closeDropdown() {
+    dropdown.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    const items = dropdown.querySelectorAll('.dropdown-item');
+    items.forEach(item => {
+      item.style.opacity = '';
+      item.style.animation = '';
+      item.style.animationDelay = '';
+    });
+  }
 });
