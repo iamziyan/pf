@@ -1,0 +1,116 @@
+/* ==========================================
+   FinTech Portfolio: Glassmorphism & Badge Systems
+   - Core Liquid Glass specifications
+   - Glassmorphic status badges/pills with gradient overlays
+   ========================================== */
+
+/* Core Liquid Glass Card and Layout Panels */
+.liquid-glass {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    inset 0 1px 0 var(--glass-inner-glow),
+    0 8px 32px 0 var(--glass-shadow);
+  border-radius: 24px;
+  box-sizing: border-box;
+  transition: background var(--transition-smooth), border var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+/* Status Badges / Pills */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 99px;
+  font-family: var(--font-heading);
+  font-size: var(--text-small);
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+  line-height: 1;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+/* Status Badge Gradients (Derived from the Monochromatic Blue Palette) */
+.badge-bronze,
+.badge-active {
+  background: linear-gradient(135deg, rgba(84, 131, 179, 0.2) 0%, rgba(125, 160, 202, 0.1) 100%);
+  border-color: rgba(84, 131, 179, 0.4);
+  box-shadow: 0 0 10px rgba(84, 131, 179, 0.15);
+  color: var(--color-very-light-blue);
+}
+
+.badge-navy,
+.badge-neutral {
+  background: linear-gradient(135deg, rgba(5, 38, 89, 0.25) 0%, rgba(84, 131, 179, 0.1) 100%);
+  border-color: rgba(5, 38, 89, 0.4);
+  box-shadow: 0 0 10px rgba(5, 38, 89, 0.15);
+  color: var(--color-very-light-blue);
+}
+
+.badge-cream,
+.badge-success {
+  background: linear-gradient(135deg, rgba(193, 232, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-color: rgba(193, 232, 255, 0.4);
+  box-shadow: 0 0 10px rgba(193, 232, 255, 0.15);
+  color: var(--color-medium-blue);
+}
+
+.badge-ice-blue {
+  background: linear-gradient(135deg, rgba(125, 160, 202, 0.2) 0%, rgba(5, 38, 89, 0.1) 100%);
+  border-color: rgba(125, 160, 202, 0.4);
+  box-shadow: 0 0 10px rgba(125, 160, 202, 0.15);
+  color: var(--color-very-light-blue);
+}
+/* Light Mode Overrides for Status Badges */
+html[data-theme="light"] .badge-bronze,
+html[data-theme="light"] .badge-active {
+  background: rgba(84, 131, 179, 0.15) !important;
+  border-color: #5483B3 !important;
+  color: #052659 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .badge-navy,
+html[data-theme="light"] .badge-neutral {
+  background: rgba(5, 38, 89, 0.08) !important;
+  border-color: #052659 !important;
+  color: #052659 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .badge-cream,
+html[data-theme="light"] .badge-success {
+  background: rgba(193, 232, 255, 0.3) !important;
+  border-color: #7DA0CA !important;
+  color: #052659 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .badge-ice-blue {
+  background: rgba(125, 160, 202, 0.15) !important;
+  border-color: #7DA0CA !important;
+  color: #052659 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .glass-card {
+  background: rgba(0, 0, 0, 0.03) !important; /* Very faint grey */
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* High Contrast Adjustments */
+@media (forced-colors: active) {
+  .liquid-glass, .status-pill {
+    border: 1.5px solid CanvasText !important;
+    background: Canvas !important;
+  }
+}

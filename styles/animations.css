@@ -1,0 +1,117 @@
+/* ==========================================
+   FinTech Portfolio: Animations
+   - Background gradient shifts
+   - Page load staggers (fade + slide-up)
+   - Spring transitions for menus
+   - Modal enter/exit scaling
+   - Accessibility motion control
+   ========================================== */
+
+/* Shifting background gradient */
+@keyframes shiftGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Page load stagger animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal scale-up transition */
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Fade in with delay */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Spring Bounce effect for dropdowns */
+@keyframes springBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-10px);
+  }
+  70% {
+    transform: scale(1.05) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Three-dot menu items scale pulsator */
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+    filter: drop-shadow(0 0 4px var(--accent));
+  }
+}
+
+/* Dynamic Animation Class Bindings */
+.stagger-in {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger utilities (6 items) */
+.stagger-in:nth-child(1) { animation-delay: 0.08s; }
+.stagger-in:nth-child(2) { animation-delay: 0.16s; }
+.stagger-in:nth-child(3) { animation-delay: 0.24s; }
+.stagger-in:nth-child(4) { animation-delay: 0.32s; }
+.stagger-in:nth-child(5) { animation-delay: 0.40s; }
+.stagger-in:nth-child(6) { animation-delay: 0.48s; }
+
+/* Scroll Reveal classes managed by Intersection Observer */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Accessibility: Respect preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none !important;
+  }
+  
+  .stagger-in,
+  .reveal-on-scroll,
+  .modal-card,
+  .dropdown-menu,
+  .theme-switch-knob {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
